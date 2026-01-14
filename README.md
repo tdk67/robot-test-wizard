@@ -1,13 +1,48 @@
 # AI Test Architect (MVP)
 
-A minimal implementation of an AI-driven Test Agent running in Docker.
+An intelligent agent that runs inside a Docker container to generate, execute, and analyze Robot Framework tests.
 
-## Structure
-* `app.py`: The AI Agent (Streamlit UI).
-* `tests/`: Directory where the Agent writes tests.
-* `results/`: Directory where Robot outputs logs.
+## Architecture
+* **Environment:** Pure WSL 2 + Native Docker Engine (Ubuntu 24.04).
+* **Core:** Python 3.12 + LangChain + Streamlit.
+* **Testing:** Robot Framework 7.0.
+* **Storage:** Tests are generated in `./tests` and results in `./results`.
 
-## Quick Start
-1.  **Setup:** Follow `INSTALL.md` to set up WSL and Docker.
-2.  **Open:** Open this folder in VS Code, press `F1`, select **"Dev Containers: Reopen in Container"**.
-3.  **Run:** `streamlit run app.py`
+## Project Structure
+```text
+/workspaces/ai-test-architect (Root)
+├── .devcontainer/     # VS Code Docker config
+├── .streamlit/        # Streamlit headless config
+├── tests/             # Generated Robot files (Persistent)
+├── results/           # Execution logs/reports (Persistent)
+├── app.py             # The AI Agent
+├── Dockerfile         # Environment definition
+└── project.md         # Auto-generated index of available tests
+```
+
+## Usage
+
+### 1. Standard Launch
+If port 8501 is free, simply run:
+```bash
+streamlit run app.py
+```
+* **Access:** Open `http://localhost:8501` in your Windows browser.
+
+### 2. Custom Port (If 8501 is busy)
+If you have other instances running or encounter port conflicts, run on a specific port (e.g., 8502):
+
+```bash
+streamlit run app.py --server.port 8502
+```
+* **Access:** Open `http://localhost:8502` in your Windows browser.
+
+### 3. Workflow
+1.  **Chat:** Ask the agent to "Write a hello world test named login.robot".
+2.  **Verify:** Check the **Explorer Sidebar** to see the file appear.
+3.  **Run:** Ask the agent to "Run login.robot".
+4.  **Monitor:** Watch the **Runner Status** in the sidebar. It runs in the background so the UI remains responsive.
+
+## Troubleshooting
+* **Files not appearing?** Ensure you are running `app.py` from the project root and that your `devcontainer.json` does NOT have a manual `workspaceMount` override.
+* **App hangs on start?** Ensure `.streamlit/config.toml` exists with `headless = true`.
