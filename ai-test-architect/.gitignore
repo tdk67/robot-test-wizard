@@ -1,0 +1,22 @@
+# --- Security (Never push these) ---
+.env
+.venv
+venv/
+__pycache__/
+*.pyc
+
+# --- OS & Editor ---
+.DS_Store
+.vscode/
+*.log
+
+# --- Project Specific ---
+# We ignore test results so your repo doesn't get bloated with logs
+results/
+# We ignore the specific Streamlit secrets, but keep the config.toml
+.streamlit/secrets.toml
+
+# --- Robot Framework ---
+output.xml
+log.html
+report.html
