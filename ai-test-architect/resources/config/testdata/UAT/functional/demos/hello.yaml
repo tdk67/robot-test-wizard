@@ -1,0 +1,22 @@
+Generic Hello Test:
+    TestRunSettings:
+        Documentation: "Basic Hello World Data Driver"
+    
+    TestScenarios:
+    -   ScenarioVars:
+            log_message: "Hello World! This is the first run."
+            user_type: "ADMIN"
+        RunSettings:
+            IterationName: "iter_1_world"
+
+    -   ScenarioVars:
+            log_message: "Hello Gemini! This is the second run."
+            user_type: "AI_AGENT"
+        RunSettings:
+            IterationName: "iter_2_gemini"
+
+    -   ScenarioVars:
+            log_message: "Hello Robot! This is the third run."
+            user_type: "BOT"
+        RunSettings:
+            IterationName: "iter_3_robot"

@@ -3,8 +3,9 @@ langchain
 langchain-openai
 python-dotenv
 streamlit
-# --- NEW ---
 fastapi
 uvicorn
 requests
 pydantic
+PyYAML
+Jinja2

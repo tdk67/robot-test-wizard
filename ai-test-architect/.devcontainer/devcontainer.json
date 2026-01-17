@@ -1,18 +1,21 @@
 {
-	"name": "AI Test Architect",
-	"build": {
-		"dockerfile": "../Dockerfile",
-		"context": ".."
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-python.python",
-				"robocorp.robotframework-lsp"
-			]
-		}
-	},
-	"forwardPorts": [8501],
-	"postCreateCommand": "pip install -r requirements.txt",
-	"remoteUser": "root"
+    "name": "AI Test Architect",
+    "build": {
+        "dockerfile": "../Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "d-biehl.robotcode", 
+                "redhat.vscode-yaml",
+                "ms-vscode.live-server.live-preview",
+                "vscode-icons-team.vscode-icons"
+            ]
+        }
+    },
+    "forwardPorts": [8501, 8502, 8503], 
+    "postCreateCommand": "pip install -r requirements.txt",
+    "remoteUser": "root"
 }
