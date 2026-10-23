@@ -216,11 +216,13 @@ When writing keywords, look up exact arguments and signatures in:
 
 ## 5. Lightweight Verification & Dry-Run (No Bloat)
 
-Before running full tests, validate syntax and keyword availability directly via CLI:
+Before running full tests, validate syntax, keyword signatures, and data-driver bindings in a sandbox via --dryrun:
 ```powershell
-python -m robot --dryrun --outputdir results testcases/<path_to_test>.robot
+python -m robot --dryrun --outputdir results --prerunmodifier resources/keywords/custom-libs/DataLoader.py:<ENV> testcases/<path_to_test>.robot
+# Or via the quick runner:
+.\run.ps1 -DryRun
 ```
-To re-generate or update library documentation after installing a new package:
+To re-generate or update library documentation after installing or upgrading packages:
 ```powershell
 python tools/dump_libdocs.py
 ```

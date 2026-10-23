@@ -3,6 +3,8 @@ Documentation    High-level business keywords for BStackDemo e-commerce applicat
 ...              Environment parameters (BaseURL, Browser, Headless, Timeout) are
 ...              supplied dynamically by DataLoader from environment configuration.
 Library          Browser
+Library          OperatingSystem
+Library          XML
 Library          custom-libs/PdfValidator.py
 
 *** Keywords ***
@@ -32,6 +34,27 @@ Close Cart Drawer
     IF    ${is_open}
         Click    .float-cart__close-btn
         Wait For Elements State    .float-cart--open    detached
+    END
+
+Add Products To Cart Or Assert Error
+    [Documentation]    Iterates over products to add them to cart, or catches and asserts expected catalog errors gracefully.
+    [Arguments]    ${products}    ${expected_error}=${None}
+    IF    $expected_error is not None
+        TRY
+            FOR    ${item}    IN    @{products}
+                Add Product To Cart    ${item['name']}
+                Close Cart Drawer
+            END
+            Fail    Expected failure with message '${expected_error}', but operation succeeded.
+        EXCEPT    AS    ${err}
+            Should Contain    ${err}    ${expected_error}
+            Pass Execution    [OK] Gracefully verified expected catalog error: ${err}
+        END
+    ELSE
+        FOR    ${item}    IN    @{products}
+            Add Product To Cart    ${item['name']}
+            Close Cart Drawer
+        END
     END
 
 Open Cart Drawer
@@ -77,6 +100,18 @@ Download Order Receipt
     ${file_info}=     Wait For    ${dl_promise}
     RETURN    ${file_info.saveAs}
 
+Verify Receipt Items And Total
+    [Documentation]    Extracts structured XML from PDF receipt and asserts all product line prices and total via XPath.
+    [Arguments]    ${pdf_file}    ${products}    ${expected_total}
+    ${xml_text}=    Convert Pdf To Xml    ${pdf_file}
+    ${xml}=         Parse Xml             ${xml_text}
+    FOR    ${item}    IN    @{products}
+        ${price}=    Get Element Text    ${xml}    xpath=items/item[type='${item['name']}']/price
+        Should Contain    ${price}    ${item['expected_price']}
+    END
+    ${receipt_total}=    Get Element Text    ${xml}    xpath=total_price
+    Should Be Equal As Strings    ${receipt_total}    ${expected_total}
+
 Logout From Store
     [Documentation]    Logs out of the store if an active session is detected.
     ${is_logged_in}=    Get Element States    text="Logout"    then    bool(value & visible)
@@ -86,7 +121,11 @@ Logout From Store
     END
 
 Close Demo Store
-    [Documentation]    Teardown keyword: captures deterministic failure screenshot and ensures clean logout.
-    Run Keyword If Test Failed    Take Screenshot    filename=${OUTPUT_DIR}/failure_${TEST_NAME}.png
+    [Documentation]    Teardown keyword: captures deterministic failure screenshot on FAIL, or cleans stale failure screenshots on PASS.
+    IF    '${TEST STATUS}' == 'FAIL'
+        Take Screenshot    filename=${OUTPUT_DIR}/failure_${TEST_NAME}.png
+    ELSE
+        Remove File    ${OUTPUT_DIR}/failure_${TEST_NAME}.png
+    END
     Run Keyword And Ignore Error    Logout From Store
     Close Browser

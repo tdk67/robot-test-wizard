@@ -2,7 +2,7 @@
 
 ## 1. Zero Absolute Paths (The Iron Commandment)
 * **NEVER** write absolute paths (e.g. `C:\...`, `c:/...`, `/home/...`, `/Users/...`) in any document, README, source code, test script, CLI command snippet, or config file.
-* **ALWAYS** use relative paths from the repository root (e.g. `resources/config/...`, `.\run.ps1`, `cd RobotFramework`) or dynamically resolve paths (`Path.cwd()`, `${CURDIR}`, `${OUTPUT_DIR}`).
+* **ALWAYS** use relative paths from the repository root (e.g. `resources/config/...`, `.\run.ps1`, `cd <dir>`) or dynamically resolve paths (`Path.cwd()`, `${CURDIR}`, `${OUTPUT_DIR}`).
 
 ## 2. Secrets vs. Configuration Separation
 * `.env` is strictly for private secrets and credentials (`BSTACK_PASSWORD=...`). It is git-ignored.

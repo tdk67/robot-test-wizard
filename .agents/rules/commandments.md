@@ -11,7 +11,7 @@ description: Unconditional rule prohibiting absolute paths in any documentation,
    - **Documentation**: `README.md`, guides, inline code blocks, command snippets. Never write `cd C:\...`, `c:/...`, `/home/...`, or `/Users/...`.
    - **Source Code**: Python, Robot Framework, Shell, PowerShell, Batch files. Never hardcode drive letters or machine-specific directories.
    - **Configuration & Test Data**: YAML, JSON, `.env.example`, XML. All paths must be relative to the repository root or resolved dynamically at runtime.
-   - **CLI Examples**: Always use relative paths (e.g., `cd RobotFramework`, `.\run.ps1`, `python -m robot ...`).
+   - **CLI Examples**: Always use relative paths (e.g., `cd <dir>`, `.\run.ps1`, `python -m robot ...`).
 
 2. **ALWAYS use relative paths or dynamic resolution**:
    - In Robot Framework: Use `${CURDIR}`, `${OUTPUT_DIR}`, or relative paths from workspace root (`resources/config/...`).
