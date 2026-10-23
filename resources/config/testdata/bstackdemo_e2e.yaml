@@ -1,0 +1,53 @@
+BStackDemo E2E Checkout Flow:
+    TestRunSettings:
+        Documentation: "Product purchasing e2e tests driven by product specifications and user_id references"
+    
+    TestScenarios:
+    # Scenario 1: Single Product (Galaxy S9) with demouser
+    -   RunSettings:
+            IterationName: "single_product_s9"
+            Documentation: "Purchase Samsung Galaxy S9 using demouser profile and verify receipt via XPath"
+        ScenarioVars:
+            user_id: "demouser"
+            products:
+              - name: "Galaxy S9"
+                expected_price: "$699.00"
+            expected_total: "$699.00"
+
+    # Scenario 2: Multi-Product Bundle (Galaxy S9 + iPhone 12) with fav_user
+    -   RunSettings:
+            IterationName: "multi_product_bundle"
+            Documentation: "Purchase multiple products (Galaxy S9 and iPhone 12) using fav_user and verify receipt line items and total via XPath"
+        ScenarioVars:
+            user_id: "fav_user"
+            products:
+              - name: "Galaxy S9"
+                expected_price: "$699.00"
+              - name: "iPhone 12"
+                expected_price: "$799.00"
+            expected_total: "$1498.00"
+
+    # Scenario 3: Same Product Added Multiple Times (2x Galaxy S9) with existing_orders_user
+    -   RunSettings:
+            IterationName: "same_product_multiple_qty"
+            Documentation: "Purchase multiple units of the same product (2x Galaxy S9) and verify receipt line price and total via XPath"
+        ScenarioVars:
+            user_id: "existing_orders_user"
+            products:
+              - name: "Galaxy S9"
+                expected_price: "$699.00"
+              - name: "Galaxy S9"
+                expected_price: "$699.00"
+            expected_total: "$1398.00"
+
+    # Scenario 4: Negative Test - Catalog Missing Product
+    -   RunSettings:
+            IterationName: "non_existent_product_graceful_handling"
+            Documentation: "Verify system immediately detects non-existent product and fails fast with informative error"
+        ScenarioVars:
+            user_id: "demouser"
+            products:
+              - name: "SuperPhone 9000 NonExistent"
+                expected_price: "$999.00"
+            expected_error: "Product 'SuperPhone 9000 NonExistent' was not found in the store catalog!"
+

@@ -1,0 +1,40 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Robot Framework artifacts
+results/
+output.xml
+log.html
+report.html
+*.output.xml
+
+# Secrets & Local environment overrides
+.env
+*.local.json
+config.local.json
+setenv.bat
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Scratch and temporary directories
+scratch/
+tmp/
+temp/
+
+# Generated documentation and AI agent skill dumps (re-generate via python tools/dump_libdocs.py)
+docs/robot-libraries/
+.agents/skills/

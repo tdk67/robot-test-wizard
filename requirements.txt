@@ -1,0 +1,9 @@
+# Core Robot Framework & Libraries
+robotframework>=7.2.0
+robotframework-browser>=20.0.0
+robotframework-requests>=0.9.7
+
+# Data, Configuration & PDF Processing
+PyYAML>=6.0.0
+python-dotenv>=1.0.0
+pypdf>=5.0.0

@@ -29,16 +29,16 @@ class DataLoader(SuiteVisitor):
                 yaml_rel_path
             )
         except ValueError as e:
-            print(f"⚠️ Path Error: {e}")
+            print(f"[WARN] Path Error: {e}")
             return
 
         # 2. DEBUGGING
         if not os.path.exists(yaml_path):
-            print(f"ℹ️ YAML Not Found: {yaml_path}")
+            print(f"[INFO] YAML Not Found: {yaml_path}")
             return
 
-        print(f"✅ Loaded Data: {yaml_path}")
-        with open(yaml_path, 'r') as f:
+        print(f"[OK] Loaded Data: {yaml_path}")
+        with open(yaml_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f) or {}
 
         # 3. EXPAND TESTS
